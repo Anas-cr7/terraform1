@@ -3,7 +3,7 @@ filename = var.filename
 content = var.content
 }
 resource "random_pet" "mypet" {
-prefix = "MR"
+prefix = var.prefix
 separator = "."
-length = "1"
+length = var.length
 }
