@@ -100,3 +100,22 @@ resource "aws_network_interface" "my_network_interface" {
     Name = "MyNetworkInterface"
   }
 }
+resource "aws_instance" "my_instance" {
+  ami           = "ami-0fc5d935ebf8bc3bc"  
+  instance_type = "t2.micro"
+  key_name      = "linuxx"    
+  subnet_id     = aws_subnet.my_subnet.id
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "Ubuntu instance"
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              apt-get update -y
+              apt-get install -y apache2
+              systemctl enable apache2
+              systemctl start apache2
+              EOF
+}
