@@ -119,3 +119,28 @@ resource "aws_instance" "my_instance" {
               systemctl start apache2
               EOF
 }
+
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "anas07sana"
+  acl = "private"  
+}
+resource "aws_dynamodb_table" "terraform-db" {
+  name = "Terraform-db"
+  hash_key = "LockID"
+  read_capacity = 20
+  write_capacity = 20
+  
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
+terraform {
+  backend "s3" {
+    bucket = "anas07sana"
+    dynamodb_table = "Terraform-db"
+    key = "terraform.tfstate"
+    region = "us-east-1"
+    
+  }
+}
